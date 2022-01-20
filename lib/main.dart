@@ -48,7 +48,8 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> implements IAcessoBioDocument {
+class _MyHomePageState extends State<MyHomePage>
+    implements IAcessoBioDocument, IAcessoBioSelfie {
   int _counter = 0;
 
   @override
@@ -60,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> implements IAcessoBioDocument {
   late UnicoCheck unicoCheck;
 
   void initAcessoBio() async {
-    unicoCheck = new UnicoCheck(context: this, config: UnicoConfig());
+    unicoCheck = UnicoCheck(context: this, config: UnicoConfig());
   }
 
   @override
@@ -82,6 +83,14 @@ class _MyHomePageState extends State<MyHomePage> implements IAcessoBioDocument {
 
   @override
   void onErrorDocument(ErrorBioResponse error) {}
+
+  @override
+  void onSuccessSelfie(CameraResponse response) {
+    print(response.base64);
+  }
+
+  @override
+  void onErrorSelfie(ErrorBioResponse error) {}
 
   openCamera() {
     unicoCheck.camera!.setAutoCapture(true);
@@ -150,7 +159,7 @@ class _MyHomePageState extends State<MyHomePage> implements IAcessoBioDocument {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: openCameraDocument,
+        onPressed: openCamera,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
